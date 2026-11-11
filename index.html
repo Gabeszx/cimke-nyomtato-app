@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Címke nyomtató</title>
+  <meta name="theme-color" content="#198754">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" href="icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icon-180.png">
+  <style>
+    html, body { margin: 0; height: 100%; background: #fff; overflow: hidden; }
+    iframe { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; }
+    #offline { display: none; position: fixed; inset: 0; align-items: center; justify-content: center;
+      flex-direction: column; gap: 12px; font: 16px system-ui, sans-serif; color: #333; text-align: center; padding: 16px; }
+    #offline img { width: 96px; height: 96px; }
+    body.offline #offline { display: flex; }
+    body.offline iframe { display: none; }
+  </style>
+</head>
+<body>
+  <!-- Az Apps Script éles (/exec) telepítése; a burok csak ikont, manifestet és service workert ad hozzá. -->
+  <iframe src="https://script.google.com/macros/s/AKfycbx-SYYpToVkzAck0pKd1_6KmHo_Co8WNWoKoEMD5t11IDTPW3BCcU5WshrXIMgUH4lbMw/exec"
+          title="Címke nyomtató" allow="clipboard-read; clipboard-write; fullscreen"></iframe>
+  <div id="offline">
+    <img src="icon-192.png" alt="">
+    <div>Nincs internetkapcsolat.<br>Az app kapcsolat nélkül nem működik.</div>
+    <button onclick="location.reload()">Újra</button>
+  </div>
+  <script>
+    if (!navigator.onLine) document.body.classList.add('offline');
+    addEventListener('online', () => location.reload());
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+  </script>
+</body>
+</html>
